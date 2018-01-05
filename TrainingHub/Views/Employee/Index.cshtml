@@ -1,0 +1,48 @@
+﻿@model TrainingHub.ViewModels.EmployeesViewModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Employee List</h2>
+
+<table id="employees" class="table table-bordered table-hover">
+    <thead>
+    <tr>
+        <th>Employee</th>
+        <th>Reference</th>
+    </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</table>
+
+@section scripts
+{
+    <script>
+
+        $(document).ready(function() {
+
+            var table = $("#employees").DataTable({
+                    ajax: {
+                        url: "/api/employees",
+                        dataSrc: ""
+                    },
+                    columns: [
+                        {
+                            data: "Name",
+                            render: function(data, type, employee) {
+                                return "<a href='/employee/edit/" + employee.Id + "'>" + employee.Name + "</a>";
+                            }
+                        },
+                        {
+                            data: "Reference"
+                        }
+                    ]
+                }
+            );
+        });
+
+    </script>
+}

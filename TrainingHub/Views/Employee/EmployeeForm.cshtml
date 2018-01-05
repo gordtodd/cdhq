@@ -1,0 +1,87 @@
+﻿@model TrainingHub.ViewModels.EmployeeCoursesViewModel
+
+
+@{
+    ViewBag.Title = "New";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Modify Employee</h2>
+
+@using (Html.BeginForm("Save","Employee")) 
+{
+    <div class="form-group">
+        @Html.LabelFor(m => m.Employee.Reference)
+        @Html.TextBoxFor(m => m.Employee.Reference, new { @class = "form-control" })      
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Employee.Name)
+        @Html.TextBoxFor(m => m.Employee.Name, new { @class = "form-control" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Employee.Trade)
+        @Html.TextBoxFor(m => m.Employee.Trade, new { @class = "form-control" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Employee.Type)
+        @Html.TextBoxFor(m => m.Employee.Type, new { @class = "form-control" })
+    </div>
+
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Employee.Status)
+        @Html.TextBoxFor(m => m.Employee.Status, new { @class = "form-control" })
+    </div>
+
+}
+
+<table id="training" class="table table-bordered table-hover">
+<thead>
+    <tr>
+        <th>Course</th>
+        <th>Description</th>
+        <th>Completed Date</th>
+        <th>Expiry Date</th>
+    </tr>
+   
+</thead>
+    <tbody>
+  </tbody>
+</table>
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+@section scripts
+{
+    <script>
+        var employee = 
+        $(document).ready(function() {
+
+            var table = $("#training").DataTable({
+                    ajax: {
+                        url: "/api/trainings/list/" + "@Model.Employee.Id",
+                        dataSrc: ""
+                    },
+                    columns: [
+                        {
+                            data: "course.name"
+                        },
+                        {
+                            data: "course.description"
+                        },
+                        {
+                            data: "completedDate"
+                        },
+                        {
+                            data: "expiryDate"
+                        }
+                    ]
+                }
+            );
+        });
+
+    </script>
+}

@@ -1,0 +1,68 @@
+﻿@model TrainingHub.ViewModels.EmployeeCoursesViewModel
+@{
+    ViewBag.Title = "Test";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Test</h2>
+
+<div id="employee" style="width: 580px; margin: auto;"></div>
+
+@section scripts
+{
+
+
+    <script>
+
+        $(document).ready(function () {
+
+            //Prepare jtable plugin
+                $('#employee').jtable({
+                    title: 'The Person List',
+                    actions: {
+                        listAction: '/api/trainings',
+                        deleteAction: '/api/trainings',
+                        updateAction: '/api/trainings',
+                        createAction: '/api/newtraining'
+                    },
+                    fields: {
+                        Id: {
+                            key: true,
+                            create: true,
+                            edit: false,
+                            list: false
+                        },
+                        EmployeeId: 
+                        {
+                            hidden: true,
+                            edit: false,
+                            list: false,
+                            defaultValue: "@Model.Employee.Id"
+                        },
+                        CourseId:
+                        {
+                            edit: false,
+                            defaultValue: 2
+                        },
+                    CompletedDate: {
+                        title: 'Completed Date',
+                        width: '15%',
+                        type: 'date',
+                        displayFormat: 'yy-mm-dd'
+                    },
+                    Expirydate: {
+                        title: 'Expiry Date',
+                        width: '15%',
+                        type: 'date',
+                        displayFormat: 'yy-mm-dd'
+                    }
+                   
+                }
+            });
+
+            //Load person list from server
+            $('#employee').jtable('load');
+        });
+
+    </script>
+}

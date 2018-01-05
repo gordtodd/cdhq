@@ -1,0 +1,96 @@
+﻿@model TrainingHub.ViewModels.EmployeeCoursesViewModel
+@{
+    ViewBag.Title = "EmployeeTraining";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Employee Training</h2>
+
+
+@using (Html.BeginForm("Save", "Employee"))
+{
+   
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Employee.Reference)
+                    @Html.TextBoxFor(m => m.Employee.Reference, new { @class = "form-control" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Employee.Name)
+                    @Html.TextBoxFor(m => m.Employee.Name, new { @class = "form-control" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Employee.Trade)
+                    @Html.TextBoxFor(m => m.Employee.Trade, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div id="employee" style="width: 580px; margin: auto;"></div>
+            </div>
+        </div>
+        @Html.ActionLink("Back", "Index", new object { }, new { @class = "btn btn-primary" })
+    
+        }
+
+
+
+        @section scripts
+        {
+
+            <script>
+
+                $(document).ready(function() {
+
+                    //Prepare jtable plugin
+                    $('#employee').jtable({
+                        title: 'Training Records',
+                        actions: {
+                            listAction: '/api/trainings/' + "@Model.Employee.Id" + '/expired',
+                            deleteAction: '/api/trainings/delete',
+                            updateAction: '/api/trainings/update',
+                            createAction: '/api/trainings/create/' + "@Model.Employee.Id"
+                        },
+                        fields: {
+                            Id: {
+                                key: true,
+                                list: false
+                            },
+                            CourseId:
+                            {
+                                title: 'Course ID',
+                                options: '/api/courses/list',
+                                create: true,
+                                list: true
+                            },
+
+                            CompletedDate: {
+                                title: 'Completed Date',
+                                width: '15%',
+                                type: 'date',
+                                displayFormat: 'yy-mm-dd'
+                            },
+                            ExpiryDate: {
+                                title: 'Expiry Date',
+                                width: '15%',
+                                type: 'date',
+                                displayFormat: 'yy-mm-dd'
+                            }
+
+                        }
+                    });
+
+                    //Load person list from server
+                    $('#employee').jtable('load');
+
+                    $('#Edit-CompletedDate').hover(function() {
+                            alert("Gordo");
+
+                        }
+                    );
+                });
+
+            </script>
+        }
